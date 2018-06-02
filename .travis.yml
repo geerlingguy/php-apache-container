@@ -2,6 +2,12 @@
 language: python
 services: docker
 
+env:
+  - php_version: '7.2'
+  - php_version: '7.1'
+  - php_version: '7.0'
+  - php_version: '5.6'
+
 install:
   # Install Ansible.
   - pip install ansible docker-py
@@ -11,11 +17,11 @@ install:
 
 script:
   # Build the container.
-  - ansible-playbook main.yml
+  - ansible-playbook --extra-vars="@vars/${php_version}.yml" main.yml
 
-  # Verify the container runs and returns the default welcome page.
-  - docker run -d --name=php -p 8080:80 php-apache:latest /usr/sbin/apache2ctl -D FOREGROUND
-  - docker ps
+  # Verify the container runs and has the correct PHP version.
+  - docker run -d --name=php-apache -p 8080:80 php-apache:latest /usr/sbin/apache2ctl -D FOREGROUND
+  - docker exec php-apache php -v | grep ${php_version}
   - curl http://localhost:8080/
 
 # notifications:

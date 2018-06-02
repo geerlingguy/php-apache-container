@@ -1,0 +1,4 @@
+---
+php_version: '7.1'
+php_packages_extra:
+  - libapache2-mod-php7.1

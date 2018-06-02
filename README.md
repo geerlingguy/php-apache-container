@@ -89,9 +89,9 @@ First, install Ansible role requirements:
 
 Then, make sure Docker is running, and run the playbook to build the container:
 
-    ansible-playbook main.yml
+    ansible-playbook --extra-vars="@vars/7.2.yml" main.yml
 
-Once the image is built, you can run `docker images` to see the `php-apache` image that was generated.
+(Substitute whatever supported PHP version you desire in the vars path) Once the image is built, you can run `docker images` to see the `php-apache` image that was generated.
 
 > Note: If you get an error like `Failed to import docker-py`, run `pip install docker-py`.
 
