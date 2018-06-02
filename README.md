@@ -23,7 +23,7 @@ Currently maintained versions include:
 
 If you want to use the `geerlingguy/php-apache` image from Docker Hub, you don't need to install or use this project at all. You can quickly build a PHP container locally with:
 
-    docker run -d --name=php -p 80:80 geerlingguy/php-apache:latest /usr/sbin/apache2ctl -D FOREGROUND
+    docker run -d --name=php-apache -p 80:80 geerlingguy/php-apache:latest /usr/sbin/apache2ctl -D FOREGROUND
 
 You can also wrap up that configuration in a `Dockerfile` and/or a `docker-compose.yml` file if you want to keep things simple. For example:
 
@@ -31,7 +31,7 @@ You can also wrap up that configuration in a `Dockerfile` and/or a `docker-compo
     version: "3"
     
     services:
-      php:
+      php-apache:
         image: geerlingguy/php-apache:latest
         container_name: php-apache
         ports:
@@ -70,7 +70,7 @@ If you want to run multiple webroots, or need to further customize the Apache Vi
           - ./web:/var/www/html:rw,delegated
           - ./virtualhosts.conf:/etc/apache2/sites-enabled/vhosts.conf:rw
 
-Similarly, you can mount a PHP config file to the path `/etc/php/TODO`.
+Similarly, you can mount a PHP config file to the path `/etc/php/7.2/apache2/php.ini` (substitute whatever PHP version you're currently using in that path).
 
 ## Management with Ansible
 
@@ -83,9 +83,15 @@ Before using this project to build and maintain PHP images for Docker, you need 
 
 ### Build the image
 
+First, install Ansible role requirements:
+
+    ansible-galaxy install -r requirements.yml
+
+Then, make sure Docker is running, and run the playbook to build the container:
+
     ansible-playbook main.yml
 
-Once the image is built, you can run `docker images` to see the `TODO` image that was generated.
+Once the image is built, you can run `docker images` to see the `php-apache` image that was generated.
 
 ### Push the image to Docker Hub
 

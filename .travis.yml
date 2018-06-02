@@ -6,6 +6,9 @@ install:
   # Install Ansible.
   - pip install ansible
 
+  # Install role dependencies.
+  - ansible-galaxy install -r requirements.yml
+
 script:
   # Build the container.
   - ansible-playbook main.yml
