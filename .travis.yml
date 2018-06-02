@@ -14,8 +14,9 @@ script:
   - ansible-playbook main.yml
 
   # Verify the container runs and returns the default welcome page.
-  - docker run -d --name=php -p 80:80 php-apache:latest /usr/sbin/apache2ctl -D FOREGROUND
-  - curl http://localhost/
+  - docker run -d --name=php -p 8080:80 php-apache:latest /usr/sbin/apache2ctl -D FOREGROUND
+  - docker ps
+  - curl http://localhost:8080/
 
 # notifications:
 #   webhooks: https://galaxy.ansible.com/api/v1/notifications/
