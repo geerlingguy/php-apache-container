@@ -1,0 +1,74 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    base_image: debian:stretch
+    container_name: build_container
+    image_name: php
+
+    php_version: '7.2'
+    php_packages_extra:
+      - libapache2-mod-php
+    php_install_recommends: no
+
+  pre_tasks:
+    - name: Make the base image available locally.
+      docker_image:
+        name: '{{ base_image }}'
+
+    - name: Create the Docker container.
+      docker_container:
+        image: '{{ base_image }}'
+        name: '{{ container_name }}'
+        command: sleep infinity
+
+    - name: Add the newly created container to the inventory.
+      add_host:
+        hostname: '{{ container_name }}'
+        ansible_connection: docker
+
+    - name: Ensure Python is installed.
+      raw: >
+        apt-get update &&
+        apt-get install -y --no-install-recommends python
+      delegate_to: '{{ container_name }}'
+
+    - name: Gather facts inside the container.
+      setup:
+      delegate_to: '{{ container_name }}'
+
+  roles:
+    - name: geerlingguy.apache
+      delegate_to: '{{ container_name }}'
+
+    - name: geerlingguy.php-versions
+      delegate_to: '{{ container_name }}'
+
+    - name: geerlingguy.php
+      delegate_to: '{{ container_name }}'
+
+    - name: geerlingguy.php-mysql
+      delegate_to: '{{ container_name }}'
+
+    - name: geerlingguy.composer
+      delegate_to: '{{ container_name }}'
+
+  post_tasks:
+    - name: Clean up the container.
+      shell: >
+        apt-get remove --purge -y python
+        rm -rf /var/lib/apt/lists/*
+      delegate_to: '{{ container_name }}'
+
+    - name: Commit the container.
+      command: >
+        docker commit
+        -c 'CMD ["nginx", "-g", "daemon off;"]'
+        {{ container_name }} {{ image_name }}
+
+    - name: Remove the container.
+      docker_container:
+        name: '{{ container_name }}'
+        state: absent
