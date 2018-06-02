@@ -2,8 +2,6 @@
 
 [![Build Status](https://travis-ci.org/geerlingguy/php-apache-container.svg?branch=master)](https://travis-ci.org/geerlingguy/php-apache-container) [![](https://images.microbadger.com/badges/image/geerlingguy/php-apache.svg)](https://microbadger.com/images/geerlingguy/php-apache "Get your own image badge on microbadger.com")
 
-This project is in it's early stages. _There will be bugs!_ You may be better served using the [official PHP Docker image](https://hub.docker.com/_/php/) if it meets your requirements.
-
 This project is composed of three main parts:
 
   - **Ansible project**: This project is maintained on GitHub: [geerlingguy/php-apache-container](https://github.com/geerlingguy/php-apache-container). Please file issues, support requests, etc. against this GitHub repository.
