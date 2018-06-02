@@ -61,6 +61,17 @@ Or, if using a Docker Compose file:
 
 If you wish to build an image using this image as the base (e.g. for deploying to production), create a Dockerfile and `COPY` the webroot into place so it's part of the image.
 
+If you want to run multiple webroots, or need to further customize the Apache VirtualHost definitions, you can mount a config file over the existing one in the container, e.g.:
+
+    services:
+      myapp:
+        ...
+        volumes:
+          - ./web:/var/www/html:rw,delegated
+          - ./virtualhosts.conf:/etc/apache2/sites-enabled/vhosts.conf:rw
+
+Similarly, you can mount a PHP config file to the path `/etc/php/TODO`.
+
 ## Management with Ansible
 
 ### Prerequisites

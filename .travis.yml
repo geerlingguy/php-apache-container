@@ -1,0 +1,18 @@
+---
+language: python
+services: docker
+
+install:
+  # Install Ansible.
+  - pip install ansible
+
+script:
+  # Build the container.
+  - ansible-playbook main.yml
+
+  # Verify the container runs and returns the default welcome page.
+  - docker run -d --name=php -p 80:80 php-apache:latest /usr/sbin/apache2ctl -D FOREGROUND
+  - curl http://localhost/
+
+# notifications:
+#   webhooks: https://galaxy.ansible.com/api/v1/notifications/

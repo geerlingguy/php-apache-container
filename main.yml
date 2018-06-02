@@ -6,8 +6,12 @@
   vars:
     base_image: debian:stretch
     container_name: build_container
-    image_name: php
+    image_name: php-apache
 
+    # Apache settings.
+    apache_remove_default_vhost: yes
+
+    # PHP settings.
     php_version: '7.2'
     php_packages_extra:
       - libapache2-mod-php
@@ -58,7 +62,7 @@
   post_tasks:
     - name: Clean up the container.
       shell: >
-        apt-get remove --purge -y python
+        apt-get remove --purge -y python &&
         rm -rf /var/lib/apt/lists/*
       delegate_to: '{{ container_name }}'
 
