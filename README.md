@@ -27,7 +27,6 @@ If you want to use the `geerlingguy/php-apache` image from Docker Hub, you don't
 
 You can also wrap up that configuration in a `Dockerfile` and/or a `docker-compose.yml` file if you want to keep things simple. For example:
 
-    ```
     version: "3"
     
     services:
@@ -107,7 +106,7 @@ Currently, the process for updating this image on Docker Hub is manual. Eventual
 
          docker tag [image id] geerlingguy/php-apache:latest
 
-  1. Tag the Solr major version:
+  1. Tag the PHP major version:
 
          docker tag [image id] geerlingguy/php-apache:7.2 # or 7.1, etc.
          docker tag [image id] geerlingguy/php-apache:7.2.5 # the specific version
