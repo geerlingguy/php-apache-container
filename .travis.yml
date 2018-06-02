@@ -4,7 +4,7 @@ services: docker
 
 install:
   # Install Ansible.
-  - pip install ansible
+  - pip install ansible docker-py
 
   # Install role dependencies.
   - ansible-galaxy install -r requirements.yml

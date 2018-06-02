@@ -93,6 +93,8 @@ Then, make sure Docker is running, and run the playbook to build the container:
 
 Once the image is built, you can run `docker images` to see the `php-apache` image that was generated.
 
+> Note: If you get an error like `Failed to import docker-py`, run `pip install docker-py`.
+
 ### Push the image to Docker Hub
 
 Currently, the process for updating this image on Docker Hub is manual. Eventually this will be automated via Travis CI.
