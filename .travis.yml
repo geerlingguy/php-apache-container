@@ -20,7 +20,7 @@ script:
   - ansible-playbook --extra-vars="@vars/${php_version}.yml" main.yml
 
   # Verify the container runs and has the correct PHP version.
-  - docker run -d --name=php-apache -p 8080:80 php-apache:latest /usr/sbin/apache2ctl -D FOREGROUND
+  - docker run -d --name=php-apache -p 8080:80 geerlingguy/php-apache:${php_version} /usr/sbin/apache2ctl -D FOREGROUND
   - docker exec php-apache php -v | grep ${php_version}
   - curl http://localhost:8080/
 
