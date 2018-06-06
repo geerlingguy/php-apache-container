@@ -5,7 +5,8 @@
 
   vars:
     base_image: debian:stretch
-    container_name: build_container
+    container_name: php_apache_build_container
+    image_namespace: geerlingguy
     image_name: php-apache
 
     # Apache settings.
@@ -17,10 +18,17 @@
       - libapache2-mod-php7.2
     php_install_recommends: no
 
+    # Handy utilities.
+    handy_utilities:
+      - curl
+      - unzip
+      - tar
+
   pre_tasks:
-    - name: Make the base image available locally.
+    - name: Make the latest version of the base image available locally.
       docker_image:
         name: '{{ base_image }}'
+        force: yes
 
     - name: Create the Docker container.
       docker_container:
@@ -60,17 +68,26 @@
       delegate_to: '{{ container_name }}'
 
   post_tasks:
+    - name: Install handy utilities.
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ handy_utilities }}"
+      delegate_to: '{{ container_name }}'
+
     - name: Clean up the container.
       shell: >
         apt-get remove --purge -y python &&
         rm -rf /var/lib/apt/lists/*
       delegate_to: '{{ container_name }}'
+      args:
+        warn: no
 
     - name: Commit the container.
       command: >
         docker commit
-        -c 'CMD ["nginx", "-g", "daemon off;"]'
-        {{ container_name }} {{ image_name }}
+        -c 'CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]'
+        {{ container_name }} {{ image_namespace }}/{{ image_name }}:{{ php_version }}
 
     - name: Remove the container.
       docker_container:
