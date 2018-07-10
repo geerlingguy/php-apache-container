@@ -10,7 +10,7 @@ env:
 
 install:
   # Install Ansible.
-  - pip install ansible docker-py
+  - pip install ansible docker
 
   # Install role dependencies.
   - ansible-galaxy install -r requirements.yml

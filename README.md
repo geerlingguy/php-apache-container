@@ -90,7 +90,7 @@ Then, make sure Docker is running, and run the playbook to build the container:
 
 (Substitute whatever supported PHP version you desire in the vars path) Once the image is built, you can run `docker images` to see the `php-apache` image that was generated.
 
-> Note: If you get an error like `Failed to import docker-py`, run `pip install docker-py`.
+> Note: If you get an error like `Failed to import docker`, run `pip install docker`.
 
 ### Push the image to Docker Hub
 
