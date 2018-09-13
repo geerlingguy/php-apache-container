@@ -36,7 +36,7 @@ after_success:
 
       # Push $php_version + '.x' tag.
       docker tag geerlingguy/php-apache:${php_version} geerlingguy/php-apache:${php_version}.x
-      geerlingguy/php-apache:${php_version}.x
+      docker push geerlingguy/php-apache:${php_version}.x
 
       # Push latest tag if building latest version.
       if [[ "$php_version" == "7.2" ]]; then
