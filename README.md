@@ -94,26 +94,7 @@ Then, make sure Docker is running, and run the playbook to build the container:
 
 ### Push the image to Docker Hub
 
-Currently, the process for updating this image on Docker Hub is manual. Eventually this will be automated via Travis CI.
-
-  1. Log into Docker Hub on the command line:
-
-         docker login --username=geerlingguy
-
-  1. Tag the latest version (only if this is the latest/default version):
-
-         docker tag [image id] geerlingguy/php-apache:latest
-
-  1. Tag the PHP major version:
-
-         docker tag [image id] geerlingguy/php-apache:7.2 # or 7.1, etc.
-         docker tag [image id] geerlingguy/php-apache:7.2.5 # the specific version
-
-  1. Push tags to Docker Hub:
-
-         docker push geerlingguy/php-apache:latest # (if this was just tagged)
-         docker push geerlingguy/php-apache:7.2 # or 7.1, etc.
-         docker push geerlingguy/php-apache:7.2.5 # the specific version
+See the `.travis.yml` file in this repository for how it pushes all the tagged images automatically on any commit to the `master` branch.
 
 ## License
 

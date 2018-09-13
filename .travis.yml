@@ -11,6 +11,7 @@ env:
 install:
   # Install Ansible.
   - pip install ansible docker
+  - export ANSIBLE_FORCE_COLOR=true
 
   # Install role dependencies.
   - ansible-galaxy install -r requirements.yml
@@ -24,5 +25,22 @@ script:
   - docker exec php-apache php -v | grep ${php_version}
   - curl http://localhost:8080/
 
-# notifications:
-#   webhooks: https://galaxy.ansible.com/api/v1/notifications/
+after_success:
+  - |
+    if [[ "$TRAVIS_BRANCH" == "master" ]]; then
+      # Log into Docker Hub.
+      echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+      # Push $php_version tag.
+      docker push geerlingguy/php-apache:${php_version}
+
+      # Push $php_version + '.x' tag.
+      docker tag geerlingguy/php-apache:${php_version} geerlingguy/php-apache:${php_version}.x
+      geerlingguy/php-apache:${php_version}.x
+
+      # Push latest tag if building latest version.
+      if [[ "$php_version" == "7.2" ]]; then
+        docker tag geerlingguy/php-apache:${php_version} geerlingguy/php-apache:latest
+        docker push geerlingguy/php-apache:latest
+      fi
+    fi
