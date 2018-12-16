@@ -13,9 +13,9 @@
     apache_remove_default_vhost: yes
 
     # PHP settings.
-    php_version: '7.2'
+    php_version: '7.3'
     php_packages_extra:
-      - libapache2-mod-php7.2
+      - libapache2-mod-php7.3
     php_install_recommends: no
 
     # Handy utilities.

@@ -3,6 +3,7 @@ language: python
 services: docker
 
 env:
+  - php_version: '7.3'
   - php_version: '7.2'
   - php_version: '7.1'
   - php_version: '7.0'
@@ -39,7 +40,7 @@ after_success:
       docker push geerlingguy/php-apache:${php_version}.x
 
       # Push latest tag if building latest version.
-      if [[ "$php_version" == "7.2" ]]; then
+      if [[ "$php_version" == "7.3" ]]; then
         docker tag geerlingguy/php-apache:${php_version} geerlingguy/php-apache:latest
         docker push geerlingguy/php-apache:latest
       fi
