@@ -41,6 +41,7 @@ after_success:
       # Push $php_version + '.PHP_RELEASE_VERSION' tag.
       php_release_version=$(docker run --rm geerlingguy/php-apache:${php_version} bash -c "php -r 'echo PHP_RELEASE_VERSION;'")
       docker tag geerlingguy/php-apache:${php_version} geerlingguy/php-apache:${php_version}.${php_release_version}
+      docker push geerlingguy/php-apache:${php_version}.${php_release_version}
 
       # Push latest tag if building latest version.
       if [[ "$php_version" == "7.3" ]]; then
