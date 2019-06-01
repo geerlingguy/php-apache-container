@@ -25,27 +25,8 @@ script:
   - docker exec php-apache php -v | grep ${php_version}
   - curl http://localhost:8080/
 
-after_success:
-  - |
-    if [[ "$TRAVIS_BRANCH" == "master" ]]; then
-      # Log into Docker Hub.
-      echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-
-      # Push $php_version tag.
-      docker push geerlingguy/php-apache:${php_version}
-
-      # Push $php_version + '.x' tag.
-      docker tag geerlingguy/php-apache:${php_version} geerlingguy/php-apache:${php_version}.x
-      docker push geerlingguy/php-apache:${php_version}.x
-
-      # Push $php_version + '.PHP_RELEASE_VERSION' tag.
-      php_release_version=$(docker run --rm geerlingguy/php-apache:${php_version} bash -c "php -r 'echo PHP_RELEASE_VERSION;'")
-      docker tag geerlingguy/php-apache:${php_version} geerlingguy/php-apache:${php_version}.${php_release_version}
-      docker push geerlingguy/php-apache:${php_version}.${php_release_version}
-
-      # Push latest tag if building latest version.
-      if [[ "$php_version" == "7.3" ]]; then
-        docker tag geerlingguy/php-apache:${php_version} geerlingguy/php-apache:latest
-        docker push geerlingguy/php-apache:latest
-      fi
-    fi
+deploy:
+  provider: script
+  script: bash docker-push
+  on:
+    branch: master
