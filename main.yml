@@ -4,7 +4,7 @@
   gather_facts: no
 
   vars:
-    base_image: debian:stretch
+    base_image: debian:buster
     container_name: php_apache_build_container
     image_namespace: geerlingguy
     image_name: php-apache
