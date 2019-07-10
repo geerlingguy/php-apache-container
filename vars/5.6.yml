@@ -1,4 +1,0 @@
----
-php_version: '5.6'
-php_packages_extra:
-  - libapache2-mod-php5.6

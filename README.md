@@ -15,7 +15,6 @@ Currently maintained versions include:
   - `7.3`, `7.3.x`, `latest`: PHP 7.3.x
   - `7.2`, `7.2.x`: PHP 7.2.x
   - `7.1`, `7.1.x`: PHP 7.1.x
-  - `5.6`, `5.6.x`: PHP 5.6.x
 
 ## Standalone Usage
 
