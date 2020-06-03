@@ -17,7 +17,7 @@ docker tag geerlingguy/php-apache:${php_version} geerlingguy/php-apache:${php_ve
 docker push geerlingguy/php-apache:${php_version}.${php_release_version}
 
 # Push latest tag if building latest version.
-if [[ "$php_version" == "7.3" ]]; then
+if [[ "$php_version" == "7.4" ]]; then
   docker tag geerlingguy/php-apache:${php_version} geerlingguy/php-apache:latest
   docker push geerlingguy/php-apache:latest
 fi
