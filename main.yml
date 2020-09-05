@@ -23,6 +23,7 @@
       - curl
       - unzip
       - tar
+      - sudo
 
   pre_tasks:
     - name: Make the latest version of the base image available locally.
