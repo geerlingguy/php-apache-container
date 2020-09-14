@@ -53,6 +53,13 @@
       setup:
       delegate_to: '{{ container_name }}'
 
+    - name: Install handy utilities.
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ handy_utilities }}"
+      delegate_to: '{{ container_name }}'
+
   roles:
     - name: geerlingguy.apache
       delegate_to: '{{ container_name }}'
@@ -70,13 +77,6 @@
       delegate_to: '{{ container_name }}'
 
   post_tasks:
-    - name: Install handy utilities.
-      package:
-        name: "{{ item }}"
-        state: present
-      with_items: "{{ handy_utilities }}"
-      delegate_to: '{{ container_name }}'
-
     - name: Clean up the container.
       shell: >
         apt-get remove --purge -y python &&
