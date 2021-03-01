@@ -1,6 +1,6 @@
 # PHP Apache Container (Built with Ansible)
 
-[![Build Status](https://travis-ci.org/geerlingguy/php-apache-container.svg?branch=master)](https://travis-ci.org/geerlingguy/php-apache-container) [![](https://images.microbadger.com/badges/image/geerlingguy/php-apache.svg)](https://microbadger.com/images/geerlingguy/php-apache "Get your own image badge on microbadger.com")
+[![CI](https://github.com/geerlingguy/php-apache-container/workflows/Build/badge.svg?branch=master&event=push)](https://github.com/geerlingguy/php-apache-container/actions?query=workflow%3ABuild) [![Docker pulls](https://img.shields.io/docker/pulls/geerlingguy/php-apache)](https://hub.docker.com/r/geerlingguy/php-apache/)
 
 This project is composed of three main parts:
 
@@ -93,7 +93,7 @@ Then, make sure Docker is running, and run the playbook to build the container:
 
 ### Push the image to Docker Hub
 
-See the `.travis.yml` file in this repository for how it pushes all the tagged images automatically on any commit to the `master` branch.
+See the `.github/workflows/build.yml` file in this repository for how it pushes all the tagged images automatically on any commit to the `master` branch.
 
 ## License
 

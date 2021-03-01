@@ -1,0 +1,108 @@
+---
+name: Build
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: "45 1 * * 0"
+
+env:
+  ANSIBLE_FORCE_COLOR: true
+
+jobs:
+  # Test the images build and work correctly.
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php_version:
+          - '7.4'
+          - '7.3'
+          - '7.2'
+          - '7.1'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install prerequisites.
+        run: pip3 install ansible docker
+
+      - name: Install role dependencies.
+        run: ansible-galaxy install -r requirements.yml
+
+      - name: Build the container.
+        run: ansible-playbook --extra-vars="@vars/${{ matrix.php_version }}.yml" main.yml
+
+      - name: Run the container.
+        run: docker run -d --name=php-apache -p 8080:80 geerlingguy/php-apache:${{ matrix.php_version }} /usr/sbin/apache2ctl -D FOREGROUND
+
+      - name: Verify container has correct PHP version and works.
+        run: |
+          docker exec php-apache php -v | grep ${{ matrix.php_version }}
+          curl http://localhost:8080/
+
+  # If on master branch, build and release images.
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php_version:
+          - '7.4'
+          - '7.3'
+          - '7.2'
+          - '7.1'
+    needs: test
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install prerequisites.
+        run: pip3 install ansible docker
+
+      - name: Install role dependencies.
+        run: ansible-galaxy install -r requirements.yml
+
+      - name: Build the container.
+        run: ansible-playbook --extra-vars="@vars/${{ matrix.php_version }}.yml" main.yml
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push image.
+        run: |
+          # Push $php_version tag.
+          docker push geerlingguy/php-apache:${{ matrix.php_version }}
+
+          # Push $php_version + '.x' tag.
+          docker tag geerlingguy/php-apache:${{ matrix.php_version }} geerlingguy/php-apache:${{ matrix.php_version }}.x
+          docker push geerlingguy/php-apache:${{ matrix.php_version }}.x
+
+          # Push $php_version + '.PHP_RELEASE_VERSION' tag.
+          php_release_version=$(docker run --rm geerlingguy/php-apache:${{ matrix.php_version }} bash -c "php -r 'echo PHP_RELEASE_VERSION;'")
+          docker tag geerlingguy/php-apache:${{ matrix.php_version }} geerlingguy/php-apache:${{ matrix.php_version }}.${php_release_version}
+          docker push geerlingguy/php-apache:${{ matrix.php_version }}.${php_release_version}
+
+          # Push latest tag if building latest version.
+          if [[ "${{ matrix.php_version }}" == "7.4" ]]; then
+            docker tag geerlingguy/php-apache:${{ matrix.php_version }} geerlingguy/php-apache:latest
+            docker push geerlingguy/php-apache:latest
+          fi
