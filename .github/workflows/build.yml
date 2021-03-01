@@ -89,7 +89,7 @@ jobs:
 
       - name: Push image.
         run: |
-          # Push $solr_version tag.
+          # Push $php_version tag.
           docker push geerlingguy/php-apache:${{ matrix.php_version }}
 
           # Push $php_version + '.x' tag.
