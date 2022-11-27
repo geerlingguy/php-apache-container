@@ -1,0 +1,4 @@
+---
+php_version: '8.1'
+php_packages_extra:
+  - libapache2-mod-php8.1

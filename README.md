@@ -12,7 +12,8 @@ This project is composed of three main parts:
 
 Currently maintained versions include:
 
-  - `7.4`, `7.4.x`, `latest`: PHP 7.4.x
+  - `8.1`, `8.1.x`, `latest`: PHP 8.1.x
+  - `7.4`, `7.4.x`: PHP 7.4.x
   - `7.3`, `7.3.x`: PHP 7.3.x
   - `7.2`, `7.2.x`: PHP 7.2.x
   - `7.1`, `7.1.x`: PHP 7.1.x
@@ -66,7 +67,7 @@ If you want to run multiple webroots, or need to further customize the Apache Vi
           - ./web:/var/www/html:rw,delegated
           - ./virtualhosts.conf:/etc/apache2/sites-enabled/vhosts.conf:rw
 
-Similarly, you can mount a PHP config file to the path `/etc/php/7.4/apache2/php.ini` (substitute whatever PHP version you're currently using in that path).
+Similarly, you can mount a PHP config file to the path `/etc/php/8.1/apache2/php.ini` (substitute whatever PHP version you're currently using in that path).
 
 ## Management with Ansible
 
@@ -85,7 +86,7 @@ First, install Ansible role requirements:
 
 Then, make sure Docker is running, and run the playbook to build the container:
 
-    ansible-playbook --extra-vars="@vars/7.4.yml" main.yml
+    ansible-playbook --extra-vars="@vars/8.1.yml" main.yml
 
 (Substitute whatever supported PHP version you desire in the vars path) Once the image is built, you can run `docker images` to see the `php-apache` image that was generated.
 
