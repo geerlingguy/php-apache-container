@@ -82,8 +82,6 @@
         apt-get remove --purge -y python &&
         rm -rf /var/lib/apt/lists/*
       delegate_to: '{{ container_name }}'
-      args:
-        warn: no
 
     - name: Commit the container.
       command: >
