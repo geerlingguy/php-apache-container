@@ -1,6 +1,6 @@
 # PHP Apache Container (Built with Ansible)
 
-[![CI](https://github.com/geerlingguy/php-apache-container/workflows/Build/badge.svg?branch=master&event=push)](https://github.com/geerlingguy/php-apache-container/actions?query=workflow%3ABuild) [![Docker pulls](https://img.shields.io/docker/pulls/geerlingguy/php-apache)](https://hub.docker.com/r/geerlingguy/php-apache/)
+[![Build](https://github.com/geerlingguy/php-apache-container/actions/workflows/build.yml/badge.svg)](https://github.com/geerlingguy/php-apache-container/actions/workflows/build.yml) [![Docker pulls](https://img.shields.io/docker/pulls/geerlingguy/php-apache)](https://hub.docker.com/r/geerlingguy/php-apache/)
 
 This project is composed of three main parts:
 
