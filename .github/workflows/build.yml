@@ -20,11 +20,9 @@ jobs:
     strategy:
       matrix:
         php_version:
+          - '8.3'
+          - '8.2'
           - '8.1'
-          - '7.4'
-          - '7.3'
-          - '7.2'
-          - '7.1'
 
     steps:
       - uses: actions/checkout@v2
@@ -58,11 +56,9 @@ jobs:
     strategy:
       matrix:
         php_version:
+          - '8.3'
+          - '8.2'
           - '8.1'
-          - '7.4'
-          - '7.3'
-          - '7.2'
-          - '7.1'
     needs: test
     if: github.ref == 'refs/heads/master'
 
@@ -104,7 +100,7 @@ jobs:
           docker push geerlingguy/php-apache:${{ matrix.php_version }}.${php_release_version}
 
           # Push latest tag if building latest version.
-          if [[ "${{ matrix.php_version }}" == "8.1" ]]; then
+          if [[ "${{ matrix.php_version }}" == "8.3" ]]; then
             docker tag geerlingguy/php-apache:${{ matrix.php_version }} geerlingguy/php-apache:latest
             docker push geerlingguy/php-apache:latest
           fi

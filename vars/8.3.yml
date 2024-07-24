@@ -1,0 +1,4 @@
+---
+php_version: '8.3'
+php_packages_extra:
+  - libapache2-mod-php8.3
